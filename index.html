@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07131c">
+  <meta name="description" content="Deploy your fleet, scan hostile waters, and sink the enemy in this Bluetooth-inspired battleship game.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3v26l9-8-18-14m0 18L25 7l-9-4' fill='none' stroke='%2344e2d0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <title>Bluetooth Battleship — Signal Warfare</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Bluetooth Battleship home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M16 3v26l9-8-18-14m0 18L25 7l-9-4"/></svg></span>
+        <span><strong>BLUE<span>//</span>TOOTH</strong><small>TACTICAL NETWORK</small></span>
+      </a>
+      <div class="link-status"><span class="pulse-dot"></span><span>LINK <b>SECURE</b></span><i></i><span id="roundLabel">PREP PHASE</span></div>
+      <button class="sound-button" id="soundButton" aria-label="Toggle sound" title="Toggle sound effects">
+        <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Zm4 4a5 5 0 0 1 0 6m3-9a9 9 0 0 1 0 12"/></svg>
+        <span id="soundLabel">SOUND ON</span>
+      </button>
+    </header>
+
+    <main>
+      <section class="intro-row">
+        <div>
+          <div class="eyebrow"><span class="eyebrow-line"></span> FLEET COMMAND // SECTOR 07</div>
+          <h1>Bluetooth <span>Battleship</span></h1>
+          <p class="intro-copy" id="introCopy">Deploy your fleet. Find their signal. Sink every ship.</p>
+        </div>
+        <div class="signal-card" aria-label="Signal strength strong">
+          <div class="signal-icon"><span></span><span></span><span></span><span></span></div>
+          <div><small>ENCRYPTED CHANNEL</small><strong>2.4 <em>GHz</em></strong></div>
+          <div class="signal-level"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+
+      <section class="game-layout" aria-label="Battleship game">
+        <div class="boards-column">
+          <div class="boards-heading">
+            <div class="heading-group"><span class="section-index">01</span><div><h2>Battle grid</h2><p id="boardSubheading">Choose a ship, then tap a starting square.</p></div></div>
+            <div class="turn-pill" id="turnPill"><span class="turn-dot"></span><span id="turnText">FLEET SETUP</span></div>
+          </div>
+          <div class="boards">
+            <article class="board-card player-card">
+              <div class="board-topline"><div><span class="board-kicker">YOUR WATERS</span><h3>Fleet <span>command</span></h3></div><div class="board-count"><b id="playerFleetCount">0</b><small>/ 5</small><span>VESSELS</span></div></div>
+              <div class="grid-wrap"><div class="axis axis-top" id="playerLetters"></div><div class="axis axis-left" id="playerNumbers"></div><div class="ocean-grid" id="playerGrid" role="grid" aria-label="Your fleet grid"></div></div>
+              <div class="board-footer"><span class="coordinate-readout" id="playerReadout">GRID // A1</span><span class="mini-status"><i class="status-light"></i><span id="playerBoardStatus">AWAITING DEPLOYMENT</span></span></div>
+            </article>
+            <article class="board-card enemy-card">
+              <div class="board-topline"><div><span class="board-kicker">HOSTILE WATERS</span><h3>Enemy <span>signal</span></h3></div><div class="board-count"><b id="enemyFleetCount">5</b><small>/ 5</small><span>VESSELS</span></div></div>
+              <div class="grid-wrap"><div class="axis axis-top" id="enemyLetters"></div><div class="axis axis-left" id="enemyNumbers"></div><div class="ocean-grid enemy-grid" id="enemyGrid" role="grid" aria-label="Enemy waters; select a square to fire"></div></div>
+              <div class="board-footer"><span class="coordinate-readout" id="enemyReadout">RADAR // OFFLINE</span><span class="mini-status"><i class="status-light" id="radarLight"></i><span id="enemyBoardStatus">SCANNING...</span></span></div>
+            </article>
+          </div>
+          <div class="controls-row">
+            <div class="deploy-control" id="deployControls">
+              <button class="action-button primary" id="rotateButton"><span class="rotate-icon">↻</span> ROTATE <kbd>R</kbd></button>
+              <button class="action-button secondary" id="autoButton">AUTO DEPLOY <span>✦</span></button>
+              <button class="action-button launch-button" id="launchButton" disabled>DEPLOY FLEET <span>→</span></button>
+            </div>
+            <div class="combat-control hidden" id="combatControls"><span class="combat-tip"><span class="tip-crosshair">⌖</span> <b>YOUR MOVE</b> — Select a square on enemy waters.</span><button class="action-button secondary reset-button" id="resetButton">NEW GAME <span>↻</span></button></div>
+          </div>
+        </div>
+
+        <aside class="intel-panel">
+          <div class="intel-header"><div><span class="board-kicker">MISSION CONTROL</span><h2><span class="intel-star">✳</span> Field intel</h2></div><span class="live-tag"><i></i> LIVE</span></div>
+          <div class="objective-box"><span class="objective-icon">⌖</span><div><small>PRIMARY OBJECTIVE</small><strong id="objectiveTitle">Deploy your fleet</strong><p id="objectiveText">Place all five vessels in the grid. Drag is not required — tap a start square.</p></div></div>
+          <div class="fleet-list" id="fleetList" aria-label="Fleet roster"></div>
+          <div class="intel-divider"><span>TRANSMISSION LOG</span><span class="log-count" id="logCount">00</span></div>
+          <div class="event-log" id="eventLog" aria-live="polite"><div class="log-empty"><span>◌</span> Awaiting transmission...</div></div>
+          <div class="intel-footer"><span class="bt-glyph">ᛒ</span><span>SHORT-RANGE SIGNAL<br><b>NO CONNECTION REQUIRED</b></span><span class="lock-icon">◈</span></div>
+        </aside>
+      </section>
+      <footer class="page-footer"><span>© 2049 // BLUETOOTH NAVAL COMMAND</span><span>PLAY WITH SOUND ON <i>•</i> THINK IN SIGNALS</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="screen-flash" id="screenFlash"></div>
+  <script src="game.js"></script>
+</body>
+</html>
